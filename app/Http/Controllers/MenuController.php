@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -14,7 +15,13 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $data = Menu::all();
+        // $data = Menu::all();
+
+        $data = DB::table('menus')
+            ->join('kategoris', 'kategoris.idkategori', '=', 'menus.idkategori')
+            ->select('menus.*', 'kategoris.kategori')
+            ->orderBy('menus.menu', 'asc')
+            ->get();
 
         return response()->json($data);
     }
