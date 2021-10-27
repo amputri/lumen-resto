@@ -49,5 +49,7 @@ $router->group( ['prefix' => 'api', 'middleware' => 'auth'], function() use ($ro
     $router->post('menu', ['uses' => 'MenuController@create']);
 
     $router->get('menu', ['uses' => 'MenuController@index']);
+    
+    $router->delete('menu/{id}', ['uses' => 'MenuController@destroy']);
 
 } );

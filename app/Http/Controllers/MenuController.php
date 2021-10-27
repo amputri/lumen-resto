@@ -121,8 +121,14 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Menu $menu)
+    public function destroy($id)
     {
-        //
+        $menu = Menu::where('idmenu', $id)->delete();
+
+        if ($menu) {
+            return response()->json([
+                'pesan' => 'data sudah dihapus'
+            ]);
+        }
     }
 }
