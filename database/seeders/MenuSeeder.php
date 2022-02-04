@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Kategori;
+use App\Models\Menu;
 use Illuminate\Database\Seeder;
 
-class KategoriSeeder extends Seeder
+class MenuSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class KategoriSeeder extends Seeder
      */
     public function run()
     {
-        Kategori::factory()->count(100)->create();
+        Menu::factory()->count(100)->create();
     }
 }

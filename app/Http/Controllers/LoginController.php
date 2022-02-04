@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
-    public function Register(Request $request)
+    public function register(Request $request)
     {
         $data = [
             'email' => $request->input('email'),
@@ -19,35 +19,35 @@ class LoginController extends Controller
             'relasi' => $request->input('email'),
         ];
 
-        User::create($data);
+        $user = User::create($data);
 
-        return response()->json($data);
+        return response()->json($user);
     }
 
-    public function Login(Request $request)
+    public function login(Request $request)
     {
-       $email = $request->input('email');
-       $password = $request->input('password');
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-       $user = User::where('email', $email)->first();
+        $user = User::where('email', $email)->first();
 
-       if ($user->password === $password) {
-           $token = Str::random(40);
+        if ($user->password === $password) {
+            $token = Str::random(40);
 
-           $user->update([
-               'api_token' => $token
-           ]);
+            $user->update([
+                'api_token' => $token
+            ]);
 
-           return response()->json([
+            return response()->json([
                 'pesan' => 'login berhasil',
                 'token' => $token,
-                '$data' => $user
-           ]);
-       } else {
-        return response()->json([
-            'pesan' => 'login gagal',
-            '$data' => ''
-       ]);
-       }
+                'data' => $user
+            ]);
+        } else {
+            return response()->json([
+                'pesan' => 'login gagal',
+                'data' => ''
+            ]);
+        }
     }
 }

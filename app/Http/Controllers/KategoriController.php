@@ -15,7 +15,6 @@ class KategoriController extends Controller
     public function index()
     {
         $data = Kategori::all();
-
         return response()->json($data);
     }
 
@@ -24,7 +23,18 @@ class KategoriController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $this->validate($request, [
             'kategori' => 'required | unique:kategoris',
@@ -41,17 +51,6 @@ class KategoriController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Kategori  $kategori
@@ -60,7 +59,6 @@ class KategoriController extends Controller
     public function show($id)
     {
         $data = Kategori::where('idkategori', $id)->get();
-
         return response()->json($data);
     }
 

@@ -15,7 +15,6 @@ class PelangganController extends Controller
     public function index()
     {
         $data = Pelanggan::all();
-
         return response()->json($data);
     }
 
@@ -24,7 +23,18 @@ class PelangganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $this->validate($request, [
             'pelanggan' => 'required',
@@ -43,17 +53,6 @@ class PelangganController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Pelanggan  $pelanggan
@@ -62,7 +61,6 @@ class PelangganController extends Controller
     public function show($id)
     {
         $data = Pelanggan::where('idpelanggan', $id)->get();
-
         return response()->json($data);
     }
 
@@ -92,7 +90,7 @@ class PelangganController extends Controller
             return response()->json([
                 'pesan' => 'data sudah diupdate',
                 'status' => 201
-            ]);   
+            ]);
         }
     }
 

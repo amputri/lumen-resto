@@ -15,8 +15,6 @@ class MenuController extends Controller
      */
     public function index()
     {
-        // $data = Menu::all();
-
         $data = DB::table('menus')
             ->join('kategoris', 'kategoris.idkategori', '=', 'menus.idkategori')
             ->select('menus.*', 'kategoris.kategori')
@@ -31,7 +29,18 @@ class MenuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $this->validate($request, [
             'idkategori' => 'required | numeric',
@@ -46,39 +55,17 @@ class MenuController extends Controller
         $data = [
             'idkategori' => $request->input('idkategori'),
             'menu' => $request->input('menu'),
-            'gambar' => url('upload/'.$gambar),
+            'gambar' => url('upload/' . $gambar),
             'harga' => $request->input('harga')
         ];
 
         $menu = Menu::create($data);
 
         if ($menu) {
-            $result = [
-                'status' => 200,
-                'pesan' => 'data sudah ditambahkan',
-                'data' => $data
-            ];
-        } else {
-            $result = [
-                'status' => 400,
-                'pesan' => 'data tidak bisa ditambahkan',
-                'data' => ''
-            ];
+            return response()->json([
+                'pesan' => 'data sudah disimpan'
+            ]);
         }
-        
-
-        return response()->json($result);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -87,9 +74,15 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function show(Menu $menu)
+    public function show($id)
     {
-        //
+        $data = DB::table('menus')
+            ->join('kategoris', 'kategoris.idkategori', '=', 'menus.idkategori')
+            ->select('menus.*', 'kategoris.kategori')
+            ->where('idmenu', '=', $id)
+            ->get();
+
+        return response()->json($data);
     }
 
     /**
@@ -110,9 +103,39 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Menu $menu)
+    public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'idkategori' => 'required | numeric',
+            'menu' => 'required | unique:menus',
+            'harga' => 'required | numeric'
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar')->getClientOriginalName();
+            $request->file('gambar')->move('upload', $gambar);
+
+            $data = [
+                'idkategori' => $request->input('idkategori'),
+                'menu' => $request->input('menu'),
+                'gambar' => url('upload/' . $gambar),
+                'harga' => $request->input('harga')
+            ];
+        } else {
+            $data = [
+                'idkategori' => $request->input('idkategori'),
+                'menu' => $request->input('menu'),
+                'harga' => $request->input('harga')
+            ];
+        }
+
+        $menu = Menu::where('idmenu', $id)->update($data);
+
+        if ($menu) {
+            return response()->json([
+                'pesan' => 'data sudah diubah!'
+            ]);
+        }
     }
 
     /**
