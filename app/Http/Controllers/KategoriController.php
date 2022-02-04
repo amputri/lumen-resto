@@ -45,7 +45,7 @@ class KategoriController extends Controller
 
         if ($kategori) {
             return response()->json([
-                'pesan' => 'data sudah disimpan'
+                'pesan' => 'data sudah disimpan!'
             ]);   
         }
     }
