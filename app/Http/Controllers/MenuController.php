@@ -107,7 +107,7 @@ class MenuController extends Controller
     {
         $this->validate($request, [
             'idkategori' => 'required | numeric',
-            'menu' => 'required | unique:menus',
+            'menu' => 'required',
             'harga' => 'required | numeric'
         ]);
 
